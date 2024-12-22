@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
+.env.local
+
+# Firebase initialization file
+firebase.init.js
+
+# Build files
+dist/
+
+# Node modules
+node_modules/
+#tooltip&data
+/public/lottie-animation.json
+
+
+.vercel
