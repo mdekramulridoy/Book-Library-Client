@@ -81,7 +81,7 @@ const Navbar = () => {
 
   return (
     <div className="">
-      <div className="navbar bg-base-100 shadow-md">
+      <div className="navbar bg-base-500 shadow-md">
         <div className="navbar-start">
           {/* Responsive Dropdown Menu */}
           <div className="dropdown md:hidden z-20">

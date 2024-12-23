@@ -15,7 +15,7 @@ const Home = () => {
           <div key={index} className="card">
             <div className="card-body text-center font-bold">
               <h2>{category}</h2>
-              <Link to={`/category/${category}`} className="btn btn-primary">
+              <Link to={`/category/${category}`} className="btn btn-primary bg-black">
                 View Books
               </Link>
             </div>
