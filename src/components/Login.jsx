@@ -71,11 +71,12 @@ const Login = () => {
       const result = await signInWithGoogle();
       const user = result.user;
   
- 
-      if (!user.photoURL) {
-        const userRef = auth.currentUser;
-        await userRef.reload(); 
-      }
+      // Reload the user's profile
+      await auth.currentUser.reload();
+      const updatedUser = auth.currentUser;
+  
+      // Log to verify
+      console.log("User photoURL:", updatedUser.photoURL);
   
       setError("");
   
@@ -99,6 +100,7 @@ const Login = () => {
       });
     }
   };
+  
 
   return (
     <div className="hero bg-base-200 min-h-screen">

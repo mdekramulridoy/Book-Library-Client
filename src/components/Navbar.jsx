@@ -1,10 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
+import { auth } from "../firebase.init";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
+  const [profilePhoto, setProfilePhoto] = useState("");
+
   const navigate = useNavigate();
+
+  // Fetch and set the profile photo
+  useEffect(() => {
+    if (user) {
+      const fetchPhoto = async () => {
+        try {
+          await auth.currentUser.reload(); // Reload user profile
+          const updatedUser = auth.currentUser;
+          setProfilePhoto(updatedUser.photoURL || "");
+        } catch (error) {
+          console.error("Error fetching user photo:", error.message);
+          setProfilePhoto(""); // Fallback if error occurs
+        }
+      };
+
+      fetchPhoto();
+    }
+  }, [user]);
 
   const handleSignOut = () => {
     signOutUser()
@@ -13,7 +34,7 @@ const Navbar = () => {
         navigate("/login");
       })
       .catch((error) => {
-        console.log("ERROR", error.message);
+        console.error("Sign-out error:", error.message);
       });
   };
 
@@ -35,7 +56,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/"
-                className="px-3 py-2 rounded-md text-black transition-all duration-300  border"
+                className="px-3 py-2 rounded-md text-black transition-all duration-300 border"
               >
                 Home
               </NavLink>
@@ -69,7 +90,7 @@ const Navbar = () => {
               {/* User Avatar */}
               <img
                 src={
-                  user.photoURL ||
+                  profilePhoto ||
                   "https://i.ibb.co/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                 }
                 alt="User Avatar"
@@ -80,12 +101,13 @@ const Navbar = () => {
                 <span className="font-bold text-black text-center">
                   {user.displayName || "User"}
                 </span>
-                {/* Optional: Render the image again for context */}
-                <img
-                  src={user.photoURL}
-                  alt="User Profile"
-                  className="w-16 h-16 rounded-full mx-auto mt-2"
-                />
+                {profilePhoto && (
+                  <img
+                    src={profilePhoto}
+                    alt="User Profile"
+                    className="w-16 h-16 rounded-full mx-auto mt-2"
+                  />
+                )}
                 <button
                   onClick={handleSignOut}
                   className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
