@@ -13,7 +13,6 @@ const DetailsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [returnDate, setReturnDate] = useState(""); // State to store the return date
 
-  const navigate = useNavigate(); // Navigate hook for routing to the Update Page
 
   // Fetch book details based on the book ID
   useEffect(() => {
