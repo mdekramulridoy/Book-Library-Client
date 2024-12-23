@@ -63,7 +63,7 @@ const Register = () => {
       await createUser(email, password, firstName, lastName, photo);
       e.target.reset();
       toast.success(`Welcome, ${name}!`);
-      navigate("/add-visa");
+      navigate("/");
     } catch (err) {
       setError(err.message);
       toast.error(`Registration failed: ${err.message}`);

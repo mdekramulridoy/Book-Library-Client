@@ -10,6 +10,10 @@ import AuthProvider from "./providers/AuthProvider";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./components/NotFound";
+import PrivateRoute from "./routes/PrivateRoute";
+import AddBook from "./components/private/AddBook";
+import AllBooks from "./components/private/AllBooks";
+import BorrowedBooks from "./components/private/BorrowedBooks";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +40,20 @@ const router = createBrowserRouter([
       {
         path: "*",
         element: <NotFound></NotFound>, 
+      },
+      {
+        path: "add-book" ,
+        element: <PrivateRoute><AddBook></AddBook></PrivateRoute>,
+      },
+      
+      {
+        path: "all-books" ,
+        element: <PrivateRoute><AllBooks></AllBooks></PrivateRoute>,
+      },
+      
+      {
+        path: "borrowed-books" ,
+        element: <PrivateRoute><BorrowedBooks></BorrowedBooks></PrivateRoute>,
       },
      
     ],
