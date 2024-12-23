@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Added useNavigate
 import ReactStars from "react-rating-stars-component"; // Import the rating library
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -12,6 +12,8 @@ const DetailsPage = () => {
   const [error, setError] = useState(null); // State for handling errors
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [returnDate, setReturnDate] = useState(""); // State to store the return date
+
+  const navigate = useNavigate(); // Navigate hook for routing to the Update Page
 
   // Fetch book details based on the book ID
   useEffect(() => {
@@ -79,6 +81,8 @@ const DetailsPage = () => {
     }
   };
 
+
+
   if (loading) {
     return <p>Loading book details...</p>; // Show loading message
   }
@@ -145,6 +149,7 @@ const DetailsPage = () => {
             >
               {book.Quantity <= 0 ? "Out of Stock" : "Borrow"}
             </button>
+            
           </div>
         </div>
       </div>
