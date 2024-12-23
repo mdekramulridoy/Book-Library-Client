@@ -14,6 +14,9 @@ import PrivateRoute from "./routes/PrivateRoute";
 import AddBook from "./components/private/AddBook";
 import AllBooks from "./components/private/AllBooks";
 import BorrowedBooks from "./components/private/BorrowedBooks";
+import DetailsPage from "./components/private/DetailsPage";
+import CategoryPage from "./components/private/CategoryPage";
+
 
 const router = createBrowserRouter([
   {
@@ -23,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/category/:category",
+        element: <PrivateRoute><CategoryPage /></PrivateRoute>,
       },
       {
         path: "login",
@@ -37,10 +44,7 @@ const router = createBrowserRouter([
         path: "footer",
         element: <Footer />,
       },
-      {
-        path: "*",
-        element: <NotFound></NotFound>, 
-      },
+      
       {
         path: "add-book" ,
         element: <PrivateRoute><AddBook></AddBook></PrivateRoute>,
@@ -55,9 +59,23 @@ const router = createBrowserRouter([
         path: "borrowed-books" ,
         element: <PrivateRoute><BorrowedBooks></BorrowedBooks></PrivateRoute>,
       },
-     
+      ,
+      
+      {
+        path: "details-books/:id",
+        element: (
+          <PrivateRoute>
+            <DetailsPage />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
+  {
+    path: "*",
+    element: <NotFound></NotFound>, 
+  },
+
 ]);
 
 createRoot(document.getElementById("root")).render(
