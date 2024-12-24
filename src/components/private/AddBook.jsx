@@ -3,14 +3,14 @@ import toast, { Toaster } from "react-hot-toast"; // Import toast for success me
 
 const AddBook = () => {
   const [bookDetails, setBookDetails] = useState({
-    image: "",
-    name: "",
-    quantity: 0,
-    authorName: "",
-    category: "Novel",
-    shortDescription: "",
-    rating: 1,
-    bookContent: "", // Added bookContent here
+    Image: "", // Updated to match MongoDB key capitalization
+    Name: "", // Updated to match MongoDB key capitalization
+    Quantity: 0,
+    AuthorName: "", // Updated to match MongoDB key capitalization
+    Category: "Novel",
+    ShortDescription: "", // Updated to match MongoDB key capitalization
+    Rating: 1,
+    BookContent: "", // Updated to match MongoDB key capitalization
   });
 
   const handleInputChange = (e) => {
@@ -37,14 +37,14 @@ const AddBook = () => {
 
       toast.success("Book added successfully!");
       setBookDetails({
-        image: "",
-        name: "",
-        quantity: 0,
-        authorName: "",
-        category: "Novel",
-        shortDescription: "",
-        rating: 1,
-        bookContent: "", // Reset bookContent
+        Image: "",
+        Name: "",
+        Quantity: 0,
+        AuthorName: "",
+        Category: "Novel",
+        ShortDescription: "",
+        Rating: 1,
+        BookContent: "", // Reset bookContent
       });
     } catch (error) {
       console.error("Error adding book:", error);
@@ -61,8 +61,8 @@ const AddBook = () => {
           <label className="block mb-2 font-medium">Book Cover Image URL</label>
           <input
             type="text"
-            name="image"
-            value={bookDetails.image}
+            name="Image"
+            value={bookDetails.Image}
             onChange={handleInputChange}
             required
             placeholder="Enter image URL"
@@ -75,8 +75,8 @@ const AddBook = () => {
           <label className="block mb-2 font-medium">Name</label>
           <input
             type="text"
-            name="name"
-            value={bookDetails.name}
+            name="Name"
+            value={bookDetails.Name}
             onChange={handleInputChange}
             required
             className="border rounded-lg p-2 w-full"
@@ -88,8 +88,8 @@ const AddBook = () => {
           <label className="block mb-2 font-medium">Quantity</label>
           <input
             type="number"
-            name="quantity"
-            value={bookDetails.quantity}
+            name="Quantity"
+            value={bookDetails.Quantity}
             onChange={handleInputChange}
             required
             min="0"
@@ -102,8 +102,8 @@ const AddBook = () => {
           <label className="block mb-2 font-medium">Author Name</label>
           <input
             type="text"
-            name="authorName"
-            value={bookDetails.authorName}
+            name="AuthorName"
+            value={bookDetails.AuthorName}
             onChange={handleInputChange}
             required
             className="border rounded-lg p-2 w-full"
@@ -114,8 +114,8 @@ const AddBook = () => {
         <div>
           <label className="block mb-2 font-medium">Category</label>
           <select
-            name="category"
-            value={bookDetails.category}
+            name="Category"
+            value={bookDetails.Category}
             onChange={handleInputChange}
             required
             className="border rounded-lg p-2 w-full"
@@ -132,8 +132,8 @@ const AddBook = () => {
         <div>
           <label className="block mb-2 font-medium">Short Description</label>
           <textarea
-            name="shortDescription"
-            value={bookDetails.shortDescription}
+            name="ShortDescription"
+            value={bookDetails.ShortDescription}
             onChange={handleInputChange}
             required
             className="border rounded-lg p-2 w-full"
@@ -145,8 +145,8 @@ const AddBook = () => {
           <label className="block mb-2 font-medium">Rating</label>
           <input
             type="number"
-            name="rating"
-            value={bookDetails.rating}
+            name="Rating"
+            value={bookDetails.Rating}
             onChange={handleInputChange}
             required
             min="1"
@@ -159,8 +159,8 @@ const AddBook = () => {
         <div>
           <label className="block mb-2 font-medium">Content</label>
           <textarea
-            name="bookContent"
-            value={bookDetails.bookContent}
+            name="BookContent"
+            value={bookDetails.BookContent}
             onChange={handleInputChange}
             required
             placeholder="Enter detailed content about the book"
