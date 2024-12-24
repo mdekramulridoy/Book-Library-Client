@@ -18,7 +18,6 @@ import DetailsPage from "./components/private/DetailsPage";
 import CategoryPage from "./components/private/CategoryPage";
 import UpdateBook from "./components/private/UpdateBook";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,50 +39,32 @@ const router = createBrowserRouter([
         path: "register",
         element: <Register />,
       },
-      
       {
-        path: "footer",
-        element: <Footer />,
+        path: "add-book",
+        element: <PrivateRoute><AddBook /></PrivateRoute>,
       },
-      
       {
-        path: "add-book" ,
-        element: <PrivateRoute><AddBook></AddBook></PrivateRoute>,
+        path: "all-books",
+        element: <PrivateRoute><AllBooks /></PrivateRoute>,
       },
-      
       {
-        path: "all-books" ,
-        element: <PrivateRoute><AllBooks></AllBooks></PrivateRoute>,
+        path: "borrowed-books",
+        element: <PrivateRoute><BorrowedBooks /></PrivateRoute>,
       },
-      
-      {
-        path: "borrowed-books" ,
-        element: <PrivateRoute><BorrowedBooks></BorrowedBooks></PrivateRoute>,
-      },
-      ,
-      
       {
         path: "details-books/:id",
-        element: (
-          <PrivateRoute>
-            <DetailsPage />
-          </PrivateRoute>
-        ),
-      }
-      ,
-      
+        element: <PrivateRoute><DetailsPage /></PrivateRoute>,
+      },
       {
-        path: "update-book/:id" ,
-        element: <PrivateRoute><UpdateBook></UpdateBook></PrivateRoute>,
-      }
-      
+        path: "update-book/:id",
+        element: <PrivateRoute><UpdateBook /></PrivateRoute>,
+      },
     ],
   },
   {
     path: "*",
-    element: <NotFound></NotFound>, 
+    element: <NotFound />,
   },
-
 ]);
 
 createRoot(document.getElementById("root")).render(

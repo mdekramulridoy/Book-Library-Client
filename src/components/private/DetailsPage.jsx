@@ -35,50 +35,51 @@ const DetailsPage = () => {
     fetchBookDetails();
   }, [id]); // Run the effect when the ID changes
 
-  // Handle borrow logic
-  const handleBorrow = async (e) => {
-    e.preventDefault();
+// Handle borrow logic
+const handleBorrow = async (e) => {
+  e.preventDefault();
 
-    if (book.Quantity <= 0) {
-      alert("This book is out of stock.");
-      return;
+  if (book.Quantity <= 0) {
+    alert("This book is out of stock.");
+    return;
+  }
+
+  // Decrease the book's quantity in the database
+  try {
+    const response = await fetch(`http://localhost:5000/books/${id}/borrow`, {
+      method: "PATCH", // Use PATCH to update the book
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        returnDate,
+        userId: user.uid,
+        userName: user.displayName,
+        userEmail: user.email,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to borrow the book");
     }
 
-    // Decrease the book's quantity in the database
-    try {
-      const response = await fetch(`http://localhost:5000/books/${id}/borrow`, {
-        method: "PATCH", // Use PATCH to update the book
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          returnDate,
-          userId: user.uid,
-          userName: user.displayName,
-          userEmail: user.email,
-        }),
-      });
+    const updatedBook = await response.json();
 
-      if (!response.ok) {
-        throw new Error("Failed to borrow the book");
-      }
+    // After borrowing, refetch the book details to get updated quantity
+    const refetchedBook = await fetch(`http://localhost:5000/books/${id}`);
+    const refetchedData = await refetchedBook.json();
+    setBook(refetchedData); // Update the book data with the new quantity
 
-      const updatedBook = await response.json();
+    alert("Book borrowed successfully!");
 
-      // After borrowing, refetch the book details to get updated quantity
-      const refetchedBook = await fetch(`http://localhost:5000/books/${id}`);
-      const refetchedData = await refetchedBook.json();
-      setBook(refetchedData); // Update the book data with the new quantity
+    // Close the modal after successful borrow
+    setIsModalOpen(false);
+  } catch (error) {
+    console.error("Error borrowing book:", error);
+    alert(error.message);
+  }
+};
 
-      alert("Book borrowed successfully!");
-
-      // Close the modal after successful borrow
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error borrowing book:", error);
-      alert(error.message);
-    }
-  };
 
 
 

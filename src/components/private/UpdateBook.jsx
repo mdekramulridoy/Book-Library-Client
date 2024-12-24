@@ -48,28 +48,24 @@ const UpdateBook = () => {
     e.preventDefault();
 
     const updatedBook = { Name: name, AuthorName: authorName, Category: category, Rating: rating, Image: image };
-    const formData = new FormData();
-
-    // Append data
-    formData.append('Name', name);
-    formData.append('AuthorName', authorName);
-    formData.append('Category', category);
-    formData.append('Rating', rating);
-    formData.append('Image', image); // Append the image URL
 
     try {
       const response = await fetch(`http://localhost:5000/books/${id}`, {
         method: 'PATCH',
         body: JSON.stringify(updatedBook),
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       if (!response.ok) {
         throw new Error('Failed to update the book');
       }
 
+      const updatedBookData = await response.json();
+
       alert('Book updated successfully!');
-      navigate(`/book/${id}`); // Redirect to the updated book's details page
+      navigate(`/`); // Redirect to the updated book's details page
     } catch (error) {
       console.error('Error updating book:', error);
       alert('Failed to update book');
@@ -89,7 +85,7 @@ const UpdateBook = () => {
       <h2 className="text-2xl font-bold mb-6 text-center">Update Book</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700">Image URL</label>
+          <label required className="block text-gray-700">Image URL</label>
           <input
             type="text"
             value={image}
