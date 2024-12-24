@@ -22,6 +22,7 @@
     "react-reveal": "^1.2.2",
     "react-router-dom": "^7.1.0",
     "react-simple-typewriter": "^5.0.1",
+    "react-toastify": "^11.0.2",
     "sort-by": "^0.0.2",
     "swiper": "^11.1.15"
   },

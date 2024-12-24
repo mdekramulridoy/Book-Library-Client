@@ -40,7 +40,7 @@ const BorrowedBooks = () => {
 
   const handleReturn = async (bookId) => {
     try {
-      // Make the request to return the book
+      // Return the book
       const response = await fetch(
         `http://localhost:5000/borrowedBooks/return/${bookId}`,
         {
@@ -53,20 +53,28 @@ const BorrowedBooks = () => {
           }),
         }
       );
-
+  
+      // Log the response for debugging
+      console.log("Response status:", response.status);
+      const responseData = await response.json();
+      console.log("Response data:", responseData);
+  
       if (!response.ok) {
-        throw new Error("Failed to return the book.");
+        throw new Error(`Failed to return the book: ${responseData.error || response.statusText}`);
       }
-
-      // Remove the returned book from the borrowedBooks list in the UI
+  
+      // Remove the returned book from the UI
       setBorrowedBooks((prevBooks) => prevBooks.filter((book) => book._id !== bookId));
-
+  
       alert("Book returned successfully!");
     } catch (error) {
       console.error("Error returning the book:", error);
       alert(error.message);
     }
   };
+  
+  
+   
 
   if (loading) {
     return <p>Loading borrowed books...</p>;

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Added useNavigate
+import { useParams } from "react-router-dom"; // Added useNavigate
 import ReactStars from "react-rating-stars-component"; // Import the rating library
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import { ToastContainer, toast } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css";  // Import the Toastify CSS
 
 const DetailsPage = () => {
   const { id } = useParams(); // Get the book ID from the URL
@@ -12,7 +14,6 @@ const DetailsPage = () => {
   const [error, setError] = useState(null); // State for handling errors
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [returnDate, setReturnDate] = useState(""); // State to store the return date
-
 
   // Fetch book details based on the book ID
   useEffect(() => {
@@ -35,53 +36,50 @@ const DetailsPage = () => {
     fetchBookDetails();
   }, [id]); // Run the effect when the ID changes
 
-// Handle borrow logic
-const handleBorrow = async (e) => {
-  e.preventDefault();
+  // Handle borrow logic
+  const handleBorrow = async (e) => {
+    e.preventDefault();
 
-  if (book.Quantity <= 0) {
-    alert("This book is out of stock.");
-    return;
-  }
-
-  // Decrease the book's quantity in the database
-  try {
-    const response = await fetch(`http://localhost:5000/books/${id}/borrow`, {
-      method: "PATCH", // Use PATCH to update the book
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        returnDate,
-        userId: user.uid,
-        userName: user.displayName,
-        userEmail: user.email,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to borrow the book");
+    if (book.Quantity <= 0) {
+      toast.error("This book is out of stock."); // Show toast for out of stock
+      return;
     }
 
-    const updatedBook = await response.json();
+    // Decrease the book's quantity in the database
+    try {
+      const response = await fetch(`http://localhost:5000/books/${id}/borrow`, {
+        method: "PATCH", // Use PATCH to update the book
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          returnDate,
+          userId: user.uid,
+          userName: user.displayName,
+          userEmail: user.email,
+        }),
+      });
 
-    // After borrowing, refetch the book details to get updated quantity
-    const refetchedBook = await fetch(`http://localhost:5000/books/${id}`);
-    const refetchedData = await refetchedBook.json();
-    setBook(refetchedData); // Update the book data with the new quantity
+      if (!response.ok) {
+        throw new Error("Failed to borrow the book");
+      }
 
-    alert("Book borrowed successfully!");
+      const updatedBook = await response.json();
 
-    // Close the modal after successful borrow
-    setIsModalOpen(false);
-  } catch (error) {
-    console.error("Error borrowing book:", error);
-    alert(error.message);
-  }
-};
+      // After borrowing, refetch the book details to get updated quantity
+      const refetchedBook = await fetch(`http://localhost:5000/books/${id}`);
+      const refetchedData = await refetchedBook.json();
+      setBook(refetchedData); // Update the book data with the new quantity
 
+      toast.success("Book borrowed successfully!"); // Show success toast
 
-
+      // Close the modal after successful borrow
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error borrowing book:", error);
+      toast.error(error.message); // Show error toast with the error message
+    }
+  };
 
   if (loading) {
     return <p>Loading book details...</p>; // Show loading message
@@ -149,7 +147,6 @@ const handleBorrow = async (e) => {
             >
               {book.Quantity <= 0 ? "Out of Stock" : "Borrow"}
             </button>
-            
           </div>
         </div>
       </div>
@@ -204,6 +201,8 @@ const handleBorrow = async (e) => {
           </div>
         </div>
       )}
+      
+      <ToastContainer /> {/* Add the ToastContainer here */}
     </div>
   );
 };
