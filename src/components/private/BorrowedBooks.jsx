@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 
 const BorrowedBooks = () => {
   const { user } = useContext(AuthContext);
@@ -9,7 +11,6 @@ const BorrowedBooks = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Function to fetch the list of borrowed books
   const fetchBorrowedBooks = async () => {
     try {
       const response = await fetch(
@@ -21,60 +22,60 @@ const BorrowedBooks = () => {
       }
 
       const data = await response.json();
-      setBorrowedBooks(data); // Update the state with the latest borrowed books
+      setBorrowedBooks(data);
       setLoading(false);
     } catch (err) {
       setError(err.message);
       setLoading(false);
+      toast.error("Failed to load borrowed books."); // Show error toast
     }
   };
 
   useEffect(() => {
     if (!user) {
-      navigate("/login"); // Redirect to login if user is not authenticated
+      navigate("/login");
       return;
     }
 
-    fetchBorrowedBooks(); // Fetch borrowed books when the component mounts
+    fetchBorrowedBooks();
   }, [user, navigate]);
 
   const handleReturn = async (bookId) => {
     try {
-      // Return the book
+      console.log("Sending request to return book with bookId:", bookId);
+
       const response = await fetch(
         `http://localhost:5000/borrowedBooks/return/${bookId}`,
         {
-          method: "PATCH",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userEmail: user.email, // Include the user's email to identify the borrowed record
+            userEmail: user.email,
           }),
         }
       );
-  
-      // Log the response for debugging
-      console.log("Response status:", response.status);
+
       const responseData = await response.json();
-      console.log("Response data:", responseData);
-  
+
       if (!response.ok) {
-        throw new Error(`Failed to return the book: ${responseData.error || response.statusText}`);
+        throw new Error(responseData.error || "Failed to return the book.");
       }
-  
-      // Remove the returned book from the UI
-      setBorrowedBooks((prevBooks) => prevBooks.filter((book) => book._id !== bookId));
-  
-      alert("Book returned successfully!");
+
+      
+      setBorrowedBooks((prevBooks) =>
+        prevBooks.filter((book) => book._id !== bookId)
+      );
+
+      toast.success("Book returned successfully!"); 
     } catch (error) {
       console.error("Error returning the book:", error);
-      alert(error.message);
+      toast.error(
+        error.message || "An error occurred while returning the book."
+      ); 
     }
   };
-  
-  
-   
 
   if (loading) {
     return <p>Loading borrowed books...</p>;
@@ -106,14 +107,16 @@ const BorrowedBooks = () => {
               <h3 className="text-lg font-bold mb-2">{book.name}</h3>
               <p className="text-gray-600">Category: {book.category}</p>
               <p className="text-gray-600">
-                Borrowed Date: {new Date(book.borrowedDate).toLocaleDateString()}
+                Borrowed Date: {new Date(book.borrowDate).toLocaleDateString()}{" "}
+              
               </p>
               <p className="text-gray-600">
                 Return Date: {new Date(book.returnDate).toLocaleDateString()}
               </p>
             </div>
+
             <button
-              onClick={() => handleReturn(book._id)}
+              onClick={() => handleReturn(book.bookId)}
               className="bg-red-600 text-white py-2 px-4 m-4 rounded-lg hover:bg-red-700"
             >
               Return Book
@@ -121,6 +124,7 @@ const BorrowedBooks = () => {
           </div>
         ))}
       </div>
+      <ToastContainer /> 
     </div>
   );
 };

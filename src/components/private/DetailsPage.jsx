@@ -1,59 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Added useNavigate
-import ReactStars from "react-rating-stars-component"; // Import the rating library
+import { useParams } from "react-router-dom"; 
+import ReactStars from "react-rating-stars-component"; 
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import { ToastContainer, toast } from "react-toastify"; // Import Toastify
-import "react-toastify/dist/ReactToastify.css";  // Import the Toastify CSS
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 
 const DetailsPage = () => {
-  const { id } = useParams(); // Get the book ID from the URL
-  const { user } = useContext(AuthContext); // Get the currently logged-in user
-  const [book, setBook] = useState(null); // State to store the book data
-  const [loading, setLoading] = useState(true); // State for loading status
-  const [error, setError] = useState(null); // State for handling errors
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
-  const [returnDate, setReturnDate] = useState(""); // State to store the return date
+  const { id } = useParams(); 
+  const { user } = useContext(AuthContext); 
+  const [book, setBook] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [returnDate, setReturnDate] = useState(""); 
+  const [borrowDate, setBorrowDate] = useState(""); 
 
-  // Fetch book details based on the book ID
+  
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/books/${id}`); // Make the API call
+        const response = await fetch(`http://localhost:5000/books/${id}`); 
         if (!response.ok) {
           throw new Error("Failed to fetch book details");
         }
         const data = await response.json();
-        setBook(data); // Set the book data in the state
-        setLoading(false); // Set loading to false
+        setBook(data); 
+        setLoading(false); 
       } catch (error) {
         console.error("Error fetching book details:", error);
-        setError(error.message); // Set the error message in the state
+        setError(error.message);
         setLoading(false);
       }
     };
 
     fetchBookDetails();
-  }, [id]); // Run the effect when the ID changes
+  }, [id]); 
 
-  // Handle borrow logic
   const handleBorrow = async (e) => {
     e.preventDefault();
 
     if (book.Quantity <= 0) {
-      toast.error("This book is out of stock."); // Show toast for out of stock
+      toast.error("This book is out of stock."); 
       return;
     }
 
-    // Decrease the book's quantity in the database
+    const currentBorrowDate = new Date().toISOString(); 
+
+    
     try {
       const response = await fetch(`http://localhost:5000/books/${id}/borrow`, {
-        method: "PATCH", // Use PATCH to update the book
+        method: "PATCH", 
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           returnDate,
+          borrowDate: currentBorrowDate, 
           userId: user.uid,
           userName: user.displayName,
           userEmail: user.email,
@@ -66,37 +69,37 @@ const DetailsPage = () => {
 
       const updatedBook = await response.json();
 
-      // After borrowing, refetch the book details to get updated quantity
+      
       const refetchedBook = await fetch(`http://localhost:5000/books/${id}`);
       const refetchedData = await refetchedBook.json();
-      setBook(refetchedData); // Update the book data with the new quantity
+      setBook(refetchedData); 
 
-      toast.success("Book borrowed successfully!"); // Show success toast
+      toast.success("Book borrowed successfully!"); 
 
-      // Close the modal after successful borrow
+      
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error borrowing book:", error);
-      toast.error(error.message); // Show error toast with the error message
+      toast.error(error.message); 
     }
   };
 
   if (loading) {
-    return <p>Loading book details...</p>; // Show loading message
+    return <p>Loading book details...</p>; 
   }
 
   if (error) {
-    return <p>{error}</p>; // Show error message if there was an issue fetching the data
+    return <p>{error}</p>; 
   }
 
   if (!book) {
-    return <p>Book not found.</p>; // Show message if book data is not available
+    return <p>Book not found.</p>; 
   }
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* Display full height of the book image */}
+       
         <div className="w-full bg-gray-100">
           <img
             src={book.Image}
@@ -122,9 +125,9 @@ const DetailsPage = () => {
                 count={5}
                 value={book.Rating}
                 size={30}
-                isHalf={true} // Allow half stars
-                edit={false} // Read-only
-                activeColor="#ffd700" // Gold color for stars
+                isHalf={true} 
+                edit={false} 
+                activeColor="#ffd700" 
               />
             </div>
           </div>
@@ -201,8 +204,8 @@ const DetailsPage = () => {
           </div>
         </div>
       )}
-      
-      <ToastContainer /> {/* Add the ToastContainer here */}
+
+      <ToastContainer />
     </div>
   );
 };
