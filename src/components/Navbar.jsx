@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { AuthContext } from "../providers/AuthProvider"; // Correct import
-import { auth } from "../firebase.init";
+import { AuthContext } from "../providers/AuthProvider";
+// import { auth } from "../firebase.init";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -9,13 +9,13 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  // Fetch and set the profile photo
+  
   useEffect(() => {
     if (user) {
-      // Directly use the user's photoURL from the user object
-      setProfilePhoto(user.photoURL || "");  // Default to empty string if no photo URL
+      
+      setProfilePhoto(user.photoURL || "");  
     }
-  }, [user]); // Re-run the effect when user changes
+  }, [user]);
 
   const handleSignOut = () => {
     signOutUser()
@@ -72,7 +72,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-500 shadow-md">
       <div className="navbar-start">
-        {/* Responsive Dropdown Menu */}
+        
         <div className="dropdown md:hidden z-20">
           <button className="btn btn-ghost">
             <svg
