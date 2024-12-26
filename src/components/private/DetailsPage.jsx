@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; 
-import ReactStars from "react-rating-stars-component"; 
+import { useParams } from "react-router-dom";
+import ReactStars from "react-rating-stars-component";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import { ToastContainer, toast } from "react-toastify"; 
-import "react-toastify/dist/ReactToastify.css"; 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DetailsPage = () => {
-  const { id } = useParams(); 
-  const { user } = useContext(AuthContext); 
-  const [book, setBook] = useState(null); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [returnDate, setReturnDate] = useState(""); 
-  const [borrowDate, setBorrowDate] = useState(""); 
+  const { id } = useParams();
+  const { user } = useContext(AuthContext);
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [returnDate, setReturnDate] = useState("");
 
-  
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/books/${id}`); 
+        const response = await fetch(`http://localhost:5000/books/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch book details");
         }
         const data = await response.json();
-        setBook(data); 
-        setLoading(false); 
+        setBook(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching book details:", error);
         setError(error.message);
@@ -35,28 +33,24 @@ const DetailsPage = () => {
     };
 
     fetchBookDetails();
-  }, [id]); 
+  }, [id]);
 
   const handleBorrow = async (e) => {
     e.preventDefault();
 
     if (book.Quantity <= 0) {
-      toast.error("This book is out of stock."); 
+      toast.error("This book is out of stock.");
       return;
     }
 
-    const currentBorrowDate = new Date().toISOString(); 
-
-    
     try {
       const response = await fetch(`http://localhost:5000/books/${id}/borrow`, {
-        method: "PATCH", 
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           returnDate,
-          borrowDate: currentBorrowDate, 
           userId: user.uid,
           userName: user.displayName,
           userEmail: user.email,
@@ -64,42 +58,40 @@ const DetailsPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to borrow the book");
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
       }
 
       const updatedBook = await response.json();
 
-      
+      // Re-fetch updated book details
       const refetchedBook = await fetch(`http://localhost:5000/books/${id}`);
       const refetchedData = await refetchedBook.json();
-      setBook(refetchedData); 
+      setBook(refetchedData);
 
-      toast.success("Book borrowed successfully!"); 
-
-      
+      toast.success("Book borrowed successfully!");
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error borrowing book:", error);
-      toast.error(error.message); 
+      toast.error(error.message);
     }
   };
 
   if (loading) {
-    return <p>Loading book details...</p>; 
+    return <p>Loading book details...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>; 
+    return <p>{error}</p>;
   }
 
   if (!book) {
-    return <p>Book not found.</p>; 
+    return <p>Book not found.</p>;
   }
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-       
         <div className="w-full bg-gray-100">
           <img
             src={book.Image}
@@ -125,9 +117,9 @@ const DetailsPage = () => {
                 count={5}
                 value={book.Rating}
                 size={30}
-                isHalf={true} 
-                edit={false} 
-                activeColor="#ffd700" 
+                isHalf={true}
+                edit={false}
+                activeColor="#ffd700"
               />
             </div>
           </div>
@@ -142,7 +134,6 @@ const DetailsPage = () => {
             </p>
           </div>
           <div className="mt-4">
-            {/* Borrow button */}
             <button
               onClick={() => setIsModalOpen(true)}
               disabled={book.Quantity <= 0}
@@ -154,7 +145,6 @@ const DetailsPage = () => {
         </div>
       </div>
 
-      {/* Modal for Borrowing */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
