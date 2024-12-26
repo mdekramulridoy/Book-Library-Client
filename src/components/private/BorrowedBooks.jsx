@@ -14,7 +14,7 @@ const BorrowedBooks = () => {
   const fetchBorrowedBooks = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/borrowedBooks?userEmail=${user.email}`
+        `https://book-library-server-mauve.vercel.app/borrowedBooks?userEmail=${user.email}`
       );
 
       if (!response.ok) {
@@ -48,7 +48,7 @@ const BorrowedBooks = () => {
       );
   
       const response = await fetch(
-        `http://localhost:5000/borrowedBooks/return/${bookId}`,
+        `https://book-library-server-mauve.vercel.app/borrowedBooks/return/${bookId}`,
         {
           method: "DELETE",
           headers: {

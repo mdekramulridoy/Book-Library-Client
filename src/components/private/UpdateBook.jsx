@@ -26,7 +26,7 @@ const UpdateBook = () => {
 
     const fetchBook = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/books/${id}`);
+        const response = await fetch(`https://book-library-server-mauve.vercel.app/books/${id}`);
         if (!response.ok) {
           throw new Error("Book not found");
         }
@@ -60,7 +60,7 @@ const UpdateBook = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/books/${id}`, {
+      const response = await fetch(`https://book-library-server-mauve.vercel.app/books/${id}`, {
         method: "PATCH",
         body: JSON.stringify(updatedBook),
         headers: {

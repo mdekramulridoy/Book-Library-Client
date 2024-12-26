@@ -4,7 +4,7 @@
 The Library Management System is a web application designed to help users manage books in a library. It allows users to browse books, borrow books, and return borrowed books. The system is built using React for the frontend and Node.js with MongoDB for the backend.
 
 ## Live URL
-[Firebase]  (http://.............)
+[Firebase]  (https://book-library-client-server.web.app/)
 
 ## Key Features
 - **Browse Books by Category:** Users can explore books by their categories.

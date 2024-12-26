@@ -19,7 +19,7 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/books/${id}`);
+        const response = await fetch(`https://book-library-server-mauve.vercel.app/books/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch book details");
         }
@@ -45,7 +45,7 @@ const DetailsPage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/books/${id}/borrow`, {
+      const response = await fetch(`https://book-library-server-mauve.vercel.app/books/${id}/borrow`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ const DetailsPage = () => {
       const updatedBook = await response.json();
 
       // Re-fetch updated book details
-      const refetchedBook = await fetch(`http://localhost:5000/books/${id}`);
+      const refetchedBook = await fetch(`https://book-library-server-mauve.vercel.app/books/${id}`);
       const refetchedData = await refetchedBook.json();
       setBook(refetchedData);
 

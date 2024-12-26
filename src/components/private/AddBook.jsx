@@ -23,7 +23,7 @@ const AddBook = () => {
 
     try {
       // Save book details to the database
-      const response = await fetch("http://localhost:5000/books", {
+      const response = await fetch("https://book-library-server-mauve.vercel.app/books", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

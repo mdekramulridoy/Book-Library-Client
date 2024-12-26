@@ -14,7 +14,7 @@ const CategoryPage = () => {
     const fetchBooks = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/books/category/${category}`
+          `https://book-library-server-mauve.vercel.app/books/category/${category}`
         );
 
         if (!response.ok) {
