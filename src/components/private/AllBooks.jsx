@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThreeDots } from 'react-loader-spinner'; // Import the spinner
 
 const AllBooks = () => {
   const [books, setBooks] = useState([]);
@@ -31,7 +32,6 @@ const AllBooks = () => {
 
     fetchBooks();
 
- 
     const updateMessage = localStorage.getItem("updateMessage");
     if (updateMessage) {
       toast.success(updateMessage);
@@ -57,7 +57,11 @@ const AllBooks = () => {
   };
 
   if (loading) {
-    return <p>Loading books...</p>;
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <ThreeDots color="#00BFFF" height={80} width={80} /> {/* Show the spinner */}
+      </div>
+    );
   }
 
   if (error) {

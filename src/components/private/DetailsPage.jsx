@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThreeDots } from 'react-loader-spinner'; // Import spinner
 
 const DetailsPage = () => {
   const { id } = useParams();
@@ -78,7 +79,11 @@ const DetailsPage = () => {
   };
 
   if (loading) {
-    return <p>Loading book details...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ThreeDots color="#000" height={80} width={80} /> {/* Loading spinner */}
+      </div>
+    );
   }
 
   if (error) {

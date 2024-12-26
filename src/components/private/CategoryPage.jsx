@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import ReactStars from "react-rating-stars-component"; // Import the library
+import ReactStars from "react-rating-stars-component"; 
+import { ThreeDots } from 'react-loader-spinner'; 
 
 const CategoryPage = () => {
-  const { category } = useParams(); // Get the category from URL
+  const { category } = useParams(); 
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch books based on the selected category
+    
     const fetchBooks = async () => {
       try {
         const response = await fetch(
@@ -20,7 +21,7 @@ const CategoryPage = () => {
           throw new Error("Failed to fetch books");
         }
         const data = await response.json();
-        setBooks(data); // Store the fetched books
+        setBooks(data); 
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -29,10 +30,14 @@ const CategoryPage = () => {
     };
 
     fetchBooks();
-  }, [category]); // Re-run when category changes
+  }, [category]); 
 
   if (loading) {
-    return <p>Loading books...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ThreeDots color="#000" height={80} width={80} /> 
+      </div>
+    );
   }
 
   if (error) {
@@ -55,7 +60,7 @@ const CategoryPage = () => {
             className="card shadow-lg rounded-lg overflow-hidden bg-white flex flex-col hover:scale-105 transition-transform"
           >
             <div className="w-full">
-              {/* Ensure full height of the image is shown */}
+              
               <img
                 src={book.Image}
                 alt={book.Name}
@@ -74,8 +79,8 @@ const CategoryPage = () => {
                     count={5}
                     value={book.Rating}
                     size={24}
-                    isHalf={true} // Allow half stars
-                    edit={false} // Make it read-only
+                    isHalf={true}
+                    edit={false} 
                     activeColor="#ffd700"
                   />
                 </div>

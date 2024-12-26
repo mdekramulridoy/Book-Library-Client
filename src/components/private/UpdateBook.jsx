@@ -1,24 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider"; 
+import { AuthContext } from "../../providers/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThreeDots } from "react-loader-spinner"; 
 
 const UpdateBook = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const [book, setBook] = useState(null); 
-  const [image, setImage] = useState(""); 
+  const [book, setBook] = useState(null);
+  const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [category, setCategory] = useState("");
   const [rating, setRating] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
   useEffect(() => {
     if (!user) {
-      
       navigate("/login");
       return;
     }
@@ -35,7 +36,7 @@ const UpdateBook = () => {
         setAuthorName(bookData.AuthorName);
         setCategory(bookData.Category);
         setRating(bookData.Rating);
-        setImage(bookData.Image); 
+        setImage(bookData.Image);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching book:", error);
@@ -48,6 +49,7 @@ const UpdateBook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); 
 
     const updatedBook = {
       Name: name,
@@ -70,21 +72,25 @@ const UpdateBook = () => {
         throw new Error("Failed to update the book");
       }
 
-      
-      toast.success("Book updated successfully!");
+      toast.success("Book updated successfully!"); 
 
-      
       setTimeout(() => {
-        navigate("/all-books");
+        navigate("/all-books"); 
       }, 2000);
     } catch (error) {
       console.error("Error updating book:", error);
-      toast.error("Failed to update book");
+      toast.error("Failed to update book"); 
+    } finally {
+      setIsSubmitting(false); 
     }
   };
 
   if (loading) {
-    return <p>Loading book details...</p>;
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <ThreeDots color="#00BFFF" height={80} width={80} /> 
+      </div>
+    );
   }
 
   if (!book) {
@@ -93,7 +99,7 @@ const UpdateBook = () => {
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
-      <ToastContainer /> 
+      <ToastContainer />
       <h2 className="text-2xl font-bold mb-6 text-center">Update Book</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -162,8 +168,9 @@ const UpdateBook = () => {
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-lg"
+          disabled={isSubmitting} 
         >
-          Submit
+           Submit
         </button>
       </form>
     </div>
