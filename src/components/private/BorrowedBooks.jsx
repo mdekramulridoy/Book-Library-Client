@@ -27,7 +27,7 @@ const BorrowedBooks = () => {
     } catch (err) {
       setError(err.message);
       setLoading(false);
-      toast.error("Failed to load borrowed books."); // Show error toast
+      toast.error("Failed to load borrowed books."); 
     }
   };
 
@@ -76,10 +76,16 @@ const BorrowedBooks = () => {
       toast.error(error.message || "An error occurred while returning the book.");
     }
   };
-  
 
   if (loading) {
-    return <p>Loading borrowed books...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        
+        <div className="spinner-border animate-spin inline-block w-16 h-16 border-4 border-t-transparent border-blue-600 rounded-full" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -109,7 +115,6 @@ const BorrowedBooks = () => {
               <p className="text-gray-600">Category: {book.category}</p>
               <p className="text-gray-600">
                 Borrowed Date: {new Date(book.borrowDate).toLocaleDateString()}{" "}
-              
               </p>
               <p className="text-gray-600">
                 Return Date: {new Date(book.returnDate).toLocaleDateString()}
@@ -125,7 +130,7 @@ const BorrowedBooks = () => {
           </div>
         ))}
       </div>
-      <ToastContainer /> 
+      <ToastContainer />
     </div>
   );
 };
