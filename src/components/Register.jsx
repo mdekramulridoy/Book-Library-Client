@@ -40,15 +40,16 @@ const Register = () => {
       return;
     }
 
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-    if (!passwordRegex.test(password)) {
-      setError(
-        "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character."
-      );
-      toast.error("Password must meet the required criteria.");
-      return;
-    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+if (!passwordRegex.test(password)) {
+  setError(
+    "Password must include at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
+  );
+  toast.error("Password must meet the required criteria.");
+  return;
+}
+
 
     if (name.split(" ").length < 2) {
       setError("Please provide both your first and last names.");
