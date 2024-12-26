@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider"; // Assuming you have this context to manage authentication
+import { AuthContext } from "../../providers/AuthProvider"; 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UpdateBook = () => {
-  const { id } = useParams(); // Get the book ID from the URL
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext); // Get the logged-in user from the Auth context
-  const [book, setBook] = useState(null); // State to store book data
-  const [image, setImage] = useState(''); // For storing new image URL
-  const [name, setName] = useState('');
-  const [authorName, setAuthorName] = useState('');
-  const [category, setCategory] = useState('');
-  const [rating, setRating] = useState('');
+  const { user } = useContext(AuthContext);
+  const [book, setBook] = useState(null); 
+  const [image, setImage] = useState(""); 
+  const [name, setName] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [category, setCategory] = useState("");
+  const [rating, setRating] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) {
-      // If user is not authenticated, redirect to login page
+      
       navigate("/login");
       return;
     }
@@ -25,7 +27,7 @@ const UpdateBook = () => {
       try {
         const response = await fetch(`http://localhost:5000/books/${id}`);
         if (!response.ok) {
-          throw new Error('Book not found');
+          throw new Error("Book not found");
         }
         const bookData = await response.json();
         setBook(bookData);
@@ -33,10 +35,10 @@ const UpdateBook = () => {
         setAuthorName(bookData.AuthorName);
         setCategory(bookData.Category);
         setRating(bookData.Rating);
-        setImage(bookData.Image); // Set the existing image URL
+        setImage(bookData.Image); 
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching book:', error);
+        console.error("Error fetching book:", error);
         setLoading(false);
       }
     };
@@ -47,28 +49,37 @@ const UpdateBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const updatedBook = { Name: name, AuthorName: authorName, Category: category, Rating: rating, Image: image };
+    const updatedBook = {
+      Name: name,
+      AuthorName: authorName,
+      Category: category,
+      Rating: rating,
+      Image: image,
+    };
 
     try {
       const response = await fetch(`http://localhost:5000/books/${id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(updatedBook),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update the book');
+        throw new Error("Failed to update the book");
       }
 
-      const updatedBookData = await response.json();
+      
+      toast.success("Book updated successfully!");
 
-      alert('Book updated successfully!');
-      navigate(`/`); // Redirect to the updated book's details page
+      
+      setTimeout(() => {
+        navigate("/all-books");
+      }, 2000);
     } catch (error) {
-      console.error('Error updating book:', error);
-      alert('Failed to update book');
+      console.error("Error updating book:", error);
+      toast.error("Failed to update book");
     }
   };
 
@@ -82,10 +93,11 @@ const UpdateBook = () => {
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
+      <ToastContainer /> 
       <h2 className="text-2xl font-bold mb-6 text-center">Update Book</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label required className="block text-gray-700">Image URL</label>
+          <label className="block text-gray-700">Image URL</label>
           <input
             type="text"
             value={image}

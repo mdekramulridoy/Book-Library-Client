@@ -42,8 +42,11 @@ const BorrowedBooks = () => {
 
   const handleReturn = async (bookId) => {
     try {
-      console.log("Sending request to return book with bookId:", bookId);
-
+      // Optimistic UI Update: Remove book immediately from UI
+      setBorrowedBooks((prevBooks) =>
+        prevBooks.filter((book) => book.bookId !== bookId)
+      );
+  
       const response = await fetch(
         `http://localhost:5000/borrowedBooks/return/${bookId}`,
         {
@@ -56,26 +59,24 @@ const BorrowedBooks = () => {
           }),
         }
       );
-
+  
       const responseData = await response.json();
-
+  
       if (!response.ok) {
         throw new Error(responseData.error || "Failed to return the book.");
       }
-
-      
-      setBorrowedBooks((prevBooks) =>
-        prevBooks.filter((book) => book._id !== bookId)
-      );
-
-      toast.success("Book returned successfully!"); 
+  
+      // Show success toast
+      toast.success("Book returned successfully!");
     } catch (error) {
       console.error("Error returning the book:", error);
-      toast.error(
-        error.message || "An error occurred while returning the book."
-      ); 
+  
+      // Rollback UI update if API call fails
+      fetchBorrowedBooks(); // Re-fetch books to ensure correct state
+      toast.error(error.message || "An error occurred while returning the book.");
     }
   };
+  
 
   if (loading) {
     return <p>Loading borrowed books...</p>;
@@ -86,7 +87,7 @@ const BorrowedBooks = () => {
   }
 
   if (borrowedBooks.length === 0) {
-    return <p>You have not borrowed any books.</p>;
+    return <p className="text-xl text-blue-600 font-bold">You have not borrowed any books.</p>;
   }
 
   return (

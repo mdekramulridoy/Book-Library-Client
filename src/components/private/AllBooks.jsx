@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // For navigation to update form page
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AllBooks = () => {
-  const [books, setBooks] = useState([]); // All books
-  const [filteredBooks, setFilteredBooks] = useState([]); // Filtered books
+  const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showAvailable, setShowAvailable] = useState(false); // Track filter state
-  const [viewType, setViewType] = useState("card"); // Track view type (card or table)
+  const [showAvailable, setShowAvailable] = useState(false);
+  const [viewType, setViewType] = useState("card");
 
-  // Fetch all books data from the server
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -19,33 +20,40 @@ const AllBooks = () => {
         }
         const data = await response.json();
         setBooks(data);
-        setFilteredBooks(data); // Initially, show all books
+        setFilteredBooks(data);
         setLoading(false);
       } catch (error) {
         setError(error.message);
+        toast.error("Failed to load books.");
         setLoading(false);
       }
     };
 
     fetchBooks();
+
+ 
+    const updateMessage = localStorage.getItem("updateMessage");
+    if (updateMessage) {
+      toast.success(updateMessage);
+      localStorage.removeItem("updateMessage");
+    }
   }, []);
 
-  // Filter books to only show available ones
   const filterAvailableBooks = () => {
     setShowAvailable(!showAvailable);
     if (!showAvailable) {
-      // Show books with quantity > 0
       const availableBooks = books.filter((book) => book.Quantity > 0);
       setFilteredBooks(availableBooks);
+      toast.info("Showing available books only.");
     } else {
-      // Show all books
       setFilteredBooks(books);
+      toast.info("Showing all books.");
     }
   };
 
-  // Handle changing view type
   const handleViewChange = (e) => {
     setViewType(e.target.value);
+    toast.info(`View changed to ${e.target.value}.`);
   };
 
   if (loading) {
@@ -60,7 +68,6 @@ const AllBooks = () => {
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">All Books</h1>
 
-      {/* Filter Button */}
       <div className="mb-6">
         <button
           onClick={filterAvailableBooks}
@@ -70,7 +77,6 @@ const AllBooks = () => {
         </button>
       </div>
 
-      {/* Dropdown for View Type */}
       <div className="mb-6">
         <select
           value={viewType}
@@ -82,13 +88,10 @@ const AllBooks = () => {
         </select>
       </div>
 
-      {/* Render Books Based on View Type */}
       {viewType === "card" ? (
-        // Card View
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredBooks.map((book) => (
             <div key={book._id} className="bg-white p-4 shadow-lg rounded-lg">
-              {/* Book Cover */}
               <div className="w-full h-64 bg-gray-100 mb-4">
                 <img
                   src={book.Image}
@@ -96,17 +99,18 @@ const AllBooks = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-
-              {/* Book Details */}
               <h2 className="text-xl font-semibold text-gray-800">{book.Name}</h2>
               <p className="text-gray-600">Author: {book.AuthorName}</p>
               <p className="text-gray-600">Category: {book.Category}</p>
               <p className="text-gray-600">Rating: {book.Rating} / 5</p>
               <p className="text-gray-600">Quantity: {book.Quantity}</p>
-
-              {/* Update Button */}
               <div className="mt-4">
-                <Link to={`/update-book/${book._id}`}>
+                <Link
+                  to={`/update-book/${book._id}`}
+                  onClick={() =>
+                    localStorage.setItem("updateMessage", "Book updated successfully!")
+                  }
+                >
                   <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
                     Update
                   </button>
@@ -116,7 +120,6 @@ const AllBooks = () => {
           ))}
         </div>
       ) : (
-        // Table View
         <table className="min-w-full border-collapse border border-gray-200">
           <thead>
             <tr>
@@ -137,7 +140,12 @@ const AllBooks = () => {
                 <td className="px-4 py-2 border">{book.Rating} / 5</td>
                 <td className="px-4 py-2 border">{book.Quantity}</td>
                 <td className="px-4 py-2 border">
-                  <Link to={`/update-book/${book._id}`}>
+                  <Link
+                    to={`/update-book/${book._id}`}
+                    onClick={() =>
+                      localStorage.setItem("updateMessage", "Book updated successfully!")
+                    }
+                  >
                     <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
                       Update
                     </button>
@@ -148,6 +156,7 @@ const AllBooks = () => {
           </tbody>
         </table>
       )}
+      <ToastContainer />
     </div>
   );
 };
