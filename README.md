@@ -131,6 +131,3 @@ To contribute to this project:
 2. Create a new branch for your feature or bug fix.
 3. Make your changes and commit them with a meaningful message.
 4. Push your branch and submit a Pull Request.
-
-## License
-This project is licensed under the [MIT License](LICENSE).
