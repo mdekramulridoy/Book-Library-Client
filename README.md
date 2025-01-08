@@ -29,8 +29,8 @@ Here is a list of some key npm packages used in the project:
 ## Setup
 
 ### Backend Setup
-1. Repository:  https://github.com/programming-hero-web-course2/b10a11-server-side-mdekramulridoy
+1. Repository:  https://github.com/mdekramulridoy/Book-Library-Server
 
 ### Client Setup
-1. Repository:  https://github.com/programming-hero-web-course2/b10a11-client-side-mdekramulridoy
+1. Repository:  https://github.com/mdekramulridoy/Book-Library-Client
    
