@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
-// import { auth } from "../firebase.init";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -9,10 +8,8 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     if (user) {
-      
       setProfilePhoto(user.photoURL || "");  
     }
   }, [user]);
@@ -33,7 +30,7 @@ const Navbar = () => {
       <li>
         <NavLink
           to="/"
-          className="px-3 py-2 rounded-md text-black transition-all duration-300 hover:bg-gray-200"
+          className="px-3 py-2 rounded-md text-black transition-all duration-300 bg-white hover:bg-gray-200"
         >
           Home
         </NavLink>
@@ -43,7 +40,7 @@ const Navbar = () => {
           <li>
             <NavLink
               to="/add-book"
-              className="px-3 py-2 rounded-md text-black transition-all duration-300 hover:bg-gray-200"
+              className="bg-white px-3 py-2 rounded-md text-black transition-all duration-300 hover:bg-gray-200"
             >
               Add Book
             </NavLink>
@@ -51,7 +48,7 @@ const Navbar = () => {
           <li>
             <NavLink
               to="/all-books"
-              className="px-3 py-2 rounded-md text-black transition-all duration-300 hover:bg-gray-200"
+              className="px-3 py-2 rounded-md text-black transition-all duration-300 bg-white hover:bg-gray-200"
             >
               All Books
             </NavLink>
@@ -59,7 +56,7 @@ const Navbar = () => {
           <li>
             <NavLink
               to="/borrowed-books"
-              className="px-3 py-2 rounded-md text-black transition-all duration-300 hover:bg-gray-200"
+              className="px-3 py-2 rounded-md text-black transition-all duration-300 bg-white hover:bg-gray-200"
             >
               Borrowed Books
             </NavLink>
@@ -70,9 +67,8 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-base-500 shadow-md">
-      <div className="navbar-start">
-        
+    <div className="navbar fixed top-0 left-0 right-0 bg-slate-400 shadow-md backdrop-blur-xl z-50">
+      <div className="navbar-start ml-2 md:ml-20">
         <div className="dropdown md:hidden z-20">
           <button className="btn btn-ghost">
             <svg
@@ -107,7 +103,7 @@ const Navbar = () => {
         <ul className="menu gap-4 menu-horizontal px-1">{links}</ul>
       </div>
 
-      <div className="navbar-end">
+      <div className="navbar-end mr-5 md:mr-20">
         {user ? (
           <div className="relative group">
             <img
@@ -121,7 +117,7 @@ const Navbar = () => {
               </span>
               <button
                 onClick={handleSignOut}
-                className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                className="w-full bg-black text-white px-4 py-2 rounded-md hover:bg-slate-700"
               >
                 Logout
               </button>

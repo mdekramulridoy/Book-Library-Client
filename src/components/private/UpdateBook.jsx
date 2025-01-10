@@ -167,7 +167,7 @@ const UpdateBook = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg"
+          className="w-full bg-black hover:bg-slate-700 text-white py-2 rounded-lg"
           disabled={isSubmitting} 
         >
            Submit

@@ -75,7 +75,7 @@ const AllBooks = () => {
       <div className="mb-6">
         <button
           onClick={filterAvailableBooks}
-          className="px-4 py-2 bg-green-600 text-white rounded-lg"
+          className="px-4 py-2 bg-black text-white rounded-lg"
         >
           {showAvailable ? "Show All Books" : "Show Available Books"}
         </button>
@@ -95,7 +95,7 @@ const AllBooks = () => {
       {viewType === "card" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredBooks.map((book) => (
-            <div key={book._id} className="bg-white p-4 shadow-lg rounded-lg">
+            <div key={book._id} className="bg-white p-4 shadow-lg rounded-lg border-2">
               <div className="w-full h-64 bg-gray-100 mb-4">
                 <img
                   src={book.Image}
@@ -115,7 +115,7 @@ const AllBooks = () => {
                     localStorage.setItem("updateMessage", "Book updated successfully!")
                   }
                 >
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                  <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-slate-700">
                     Update
                   </button>
                 </Link>
@@ -150,7 +150,7 @@ const AllBooks = () => {
                       localStorage.setItem("updateMessage", "Book updated successfully!")
                     }
                   >
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                    <button className="px-4 py-2 bg-black text-white rounded-lg">
                       Update
                     </button>
                   </Link>

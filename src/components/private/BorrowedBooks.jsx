@@ -81,7 +81,7 @@ const BorrowedBooks = () => {
     return (
       <div className="flex justify-center items-center h-screen">
         
-        <div className="spinner-border animate-spin inline-block w-16 h-16 border-4 border-t-transparent border-blue-600 rounded-full" role="status">
+        <div className="spinner-border animate-spin inline-block w-16 h-16 border-4 border-t-transparent rounded-full" role="status">
           <span className="sr-only">Loading...</span>
         </div>
       </div>
@@ -93,7 +93,7 @@ const BorrowedBooks = () => {
   }
 
   if (borrowedBooks.length === 0) {
-    return <p className="text-xl text-blue-600 font-bold">You have not borrowed any books.</p>;
+    return <p className="text-lg text-black font-bold">You have not borrowed any books.</p>;
   }
 
   return (
@@ -103,7 +103,7 @@ const BorrowedBooks = () => {
         {borrowedBooks.map((book) => (
           <div
             key={book._id}
-            className="card shadow-lg rounded-lg overflow-hidden bg-white flex flex-col"
+            className="card shadow-lg rounded-lg overflow-hidden bg-white flex flex-col border-2"
           >
             <img
               src={book.image}

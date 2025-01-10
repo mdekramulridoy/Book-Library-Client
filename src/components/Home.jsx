@@ -16,7 +16,7 @@ const Home = () => {
               <h2>{category}</h2>
               <Link
                 to={`/category/${category}`}
-                className="btn btn-primary bg-black"
+                className="btn btn-primary bg-black hover:text-white hover:bg-slate-700"
               >
                 View Books
               </Link>
@@ -36,14 +36,14 @@ const Home = () => {
               className="w-full h-full object-cover"
             />
             <div className="card-body text-center">
-              <h3 className="font-bold text-lg mb-2">The Alchemist</h3>
+              <h3 className="font-bold text-lg mb-2">The Great Gatsby</h3>
               <p className="text-sm text-gray-600">
                 A masterpiece of Paulo Coelho, inspiring readers to follow their
                 dreams.
               </p>
               <Link
                 to={`/details-books/67695bd390609ce7ba768613`}
-                className="btn btn-primary bg-black mt-4"
+                className="btn btn-primary hover:bg-slate-500 bg-black mt-4 hover:text-white"
               >
                 View Details
               </Link>
@@ -57,13 +57,13 @@ const Home = () => {
               className="w-full h-full object-cover"
             />
             <div className="card-body text-center">
-              <h3 className="font-bold text-lg mb-2">To Kill a Mockingbird</h3>
+              <h3 className="font-bold text-lg mb-2">1984</h3>
               <p className="text-sm text-gray-600">
                 Harper Lee's timeless novel on justice and moral growth.
               </p>
               <Link
                 to={`/details-books/67695ff820c56540e21e802a`}
-                className="btn btn-primary bg-black mt-4"
+                className="btn btn-primary hover:bg-slate-700 bg-black mt-4 hover:text-white"
               >
                 View Details
               </Link>
@@ -77,11 +77,11 @@ const Home = () => {
               className="w-full h-full object-cover"
             />
             <div className="card-body text-center">
-              <h3 className="font-bold text-lg mb-2">1984</h3>
+              <h3 className="font-bold text-lg mb-2">Harry Potter</h3>
               <p className="text-sm text-gray-600">
                 George Orwell's dystopian classic on surveillance and freedom.
               </p>
-              <Link to={`/details-books/67695bd390609ce7ba768624`} className="btn btn-primary bg-black mt-4">
+              <Link to={`/details-books/67695bd390609ce7ba768624`} className="btn btn-primary hover:text-white hover:bg-slate-700 bg-black mt-4">
                 View Details
               </Link>
             </div>
@@ -103,13 +103,13 @@ const Home = () => {
             </p>
             <div className="mt-4 flex items-center">
               <img
-                src="https://i.ibb.co.com/92Z44Z3/images.png"
+                src="https://i.ibb.co.com/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                 alt="Md. Ekramul Hoque"
                 className="w-12 h-12 rounded-full mr-4"
               />
               <div>
                 <h4 className="font-bold">Md. Ekramul Hoque</h4>
-                <p className="text-sm text-gray-500">Sci-Fi Lover</p>
+                <p className="text-sm text-gray-700">Sci-Fi Lover</p>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ const Home = () => {
             </p>
             <div className="mt-4 flex items-center">
               <img
-                src="https://i.ibb.co.com/92Z44Z3/images.png"
+                src="https://i.ibb.co.com/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                 alt="Md. Mehedi Rayan"
                 className="w-12 h-12 rounded-full mr-4"
               />
@@ -139,7 +139,7 @@ const Home = () => {
             </p>
             <div className="mt-4 flex items-center">
               <img
-                src="https://i.ibb.co.com/92Z44Z3/images.png"
+                src="https://i.ibb.co.com/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                 alt="Md. Rayhan Ahmed"
                 className="w-12 h-12 rounded-full mr-4"
               />
