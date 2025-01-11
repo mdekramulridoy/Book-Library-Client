@@ -1,9 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import React, { useState } from "react";
+import { Link } from "react-router-dom"; 
 import Slider from "./Slider";
 
 const Home = () => {
-  // Book categories
   const categories = ["Fantasy", "Thriller", "Classic", "Sci-Fi"];
 
   return (
@@ -24,78 +23,12 @@ const Home = () => {
           </div>
         ))}
       </div>
-      {/* Featured Books Section */}
-      <section className="mt-12 px-4 md:px-8">
-        <h2 className="text-3xl font-bold text-center mb-6">Featured Books</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Featured Books */}
-          <div className="card shadow-lg border">
-            <img
-              src="https://images-na.ssl-images-amazon.com/images/I/91SZSW8qSsL.jpg"
-              alt="The Alchemist"
-              className="w-full h-full object-cover"
-            />
-            <div className="card-body text-center">
-              <h3 className="font-bold text-lg mb-2">The Great Gatsby</h3>
-              <p className="text-sm text-gray-600">
-                A masterpiece of Paulo Coelho, inspiring readers to follow their
-                dreams.
-              </p>
-              <Link
-                to={`/details-books/67695bd390609ce7ba768613`}
-                className="btn btn-primary hover:bg-slate-500 bg-black mt-4 hover:text-white"
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
 
-          <div className="card shadow-lg border">
-            <img
-              src="https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg"
-              alt="To Kill a Mockingbird"
-              className="w-full h-full object-cover"
-            />
-            <div className="card-body text-center">
-              <h3 className="font-bold text-lg mb-2">1984</h3>
-              <p className="text-sm text-gray-600">
-                Harper Lee's timeless novel on justice and moral growth.
-              </p>
-              <Link
-                to={`/details-books/67695ff820c56540e21e802a`}
-                className="btn btn-primary hover:bg-slate-700 bg-black mt-4 hover:text-white"
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
-
-          <div className="card shadow-lg border">
-            <img
-              src="https://images-na.ssl-images-amazon.com/images/I/91HHqVTAJQL.jpg"
-              alt="1984 by George Orwell"
-              className="w-full h-full object-cover"
-            />
-            <div className="card-body text-center">
-              <h3 className="font-bold text-lg mb-2">Harry Potter</h3>
-              <p className="text-sm text-gray-600">
-                George Orwell's dystopian classic on surveillance and freedom.
-              </p>
-              <Link to={`/details-books/67695bd390609ce7ba768624`} className="btn btn-primary hover:text-white hover:bg-slate-700 bg-black mt-4">
-                View Details
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
       <section className="mt-12 px-4 md:px-8 bg-gray-100 py-8">
         <h2 className="text-3xl font-bold text-center mb-6">
           What Our Readers Say
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Testimonials */}
           <div className="card shadow-lg border p-6">
             <p className="text-gray-600 italic">
               "The Alchemist inspired me to pursue my dreams. A must-read for
@@ -103,7 +36,7 @@ const Home = () => {
             </p>
             <div className="mt-4 flex items-center">
               <img
-                src="https://i.ibb.co.com/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
+                src="https://i.ibb.co/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                 alt="Md. Ekramul Hoque"
                 className="w-12 h-12 rounded-full mr-4"
               />
@@ -121,7 +54,7 @@ const Home = () => {
             </p>
             <div className="mt-4 flex items-center">
               <img
-                src="https://i.ibb.co.com/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
+                src="https://i.ibb.co/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                 alt="Md. Mehedi Rayan"
                 className="w-12 h-12 rounded-full mr-4"
               />
@@ -139,7 +72,7 @@ const Home = () => {
             </p>
             <div className="mt-4 flex items-center">
               <img
-                src="https://i.ibb.co.com/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
+                src="https://i.ibb.co/ph6PK0H/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                 alt="Md. Rayhan Ahmed"
                 className="w-12 h-12 rounded-full mr-4"
               />
@@ -151,6 +84,78 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <section id="faqs" className="mt-12 px-4 md:px-8 bg-gray-100 py-8">
+        <h2 className="text-3xl font-bold text-center mb-6">FAQs</h2>
+        <FAQs />
+      </section>
+
+      <section id="contact" className="mt-12 px-4 md:px-8 bg-gray-100 py-8">
+        <h2 className="text-3xl font-bold text-center mb-6">Contact Us</h2>
+        <div className="flex flex-col md:flex-row justify-around items-center">
+          <div className="text-center mb-4 md:mb-0">
+            <h3 className="text-lg font-bold">Phone & WhatsApp</h3>
+            <p className="text-gray-700">01521323556</p>
+          </div>
+          <div className="text-center mb-4 md:mb-0">
+            <h3 className="text-lg font-bold">Email</h3>
+            <p className="text-gray-700">ekramul.hoque.ridoy@gmail.com</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="mt-12 px-4 md:px-8 bg-white py-8">
+        <h2 className="text-3xl font-bold text-center mb-6">About Us</h2>
+        <p className="text-gray-700 text-center max-w-3xl mx-auto leading-relaxed">
+          Welcome to our online bookstore! We are passionate about connecting readers with the
+          books they love. Our mission is to provide a diverse range of genres to cater to
+          every reader's taste. Whether you're looking for the latest bestsellers, timeless
+          classics, or thought-provoking non-fiction, we have something for everyone. Join us
+          on this journey to explore the magical world of books!
+        </p>
+      </section>
+    </div>
+  );
+};
+
+const FAQs = () => {
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const faqs = [
+    {
+      question: "What genres do you offer?",
+      answer: "We offer a wide range of genres including Fantasy, Thriller, Classic, and Sci-Fi, among others."
+    },
+    {
+      question: "How can I purchase a book?",
+      answer: "Simply navigate to the desired category and click 'View Books' to explore available options. You can then add them to your cart and proceed to checkout."
+    },
+    {
+      question: "Do you offer international shipping?",
+      answer: "Yes, we provide international shipping to most countries."
+    }
+  ];
+
+  const toggleFAQ = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+
+  return (
+    <div className="space-y-4  md:mx-28 lg:mx-32">
+      {faqs.map((faq, index) => (
+        <div key={index} className="border-b pb-4">
+          <h3
+            className="font-bold text-lg cursor-pointer flex justify-between items-center"
+            onClick={() => toggleFAQ(index)}
+          >
+            {faq.question}
+            <span className="ml-2">{activeIndex === index ? "-" : "+"}</span>
+          </h3>
+          {activeIndex === index && (
+            <p className="text-gray-600 mt-2">{faq.answer}</p>
+          )}
+        </div>
+      ))}
     </div>
   );
 };

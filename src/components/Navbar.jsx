@@ -34,6 +34,15 @@ const Navbar = () => {
         >
           Home
         </NavLink>
+        
+      </li>
+      <li>
+      <NavLink
+          to="category/Sci-Fi"
+          className="px-3 py-2 rounded-md text-black transition-all duration-300 bg-white hover:bg-gray-200"
+        >
+          Sci-Fi
+        </NavLink>
       </li>
       {user && (
         <>

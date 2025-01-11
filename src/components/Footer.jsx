@@ -5,16 +5,8 @@ const Footer = () => {
   return (
     <div className="bg-[#222] text-white py-12 mt-auto">
       <footer className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
+        <div className="grid grid-cols-1 gap-12 mb-8">
 
-          <div className="mx-auto">
-            <h3 className="text-xl font-semibold mb-4 text-center">Quick Links</h3>
-            <nav className="space-y-3 ">
-              <Link to="/about" className="hover:text-[#08ABE9] transition-colors pr-2">About Us</Link>
-              <Link to="/contact" className="hover:text-[#08ABE9] transition-colors pr-2">Contact</Link>
-              <Link to="/faqs" className="hover:text-[#08ABE9] transition-colors">FAQs</Link>
-            </nav>
-          </div>
           <div className="mx-auto">
             <h3 className="text-xl font-semibold mb-4 text-center">Follow Us</h3>
             <div className="flex space-x-6">
